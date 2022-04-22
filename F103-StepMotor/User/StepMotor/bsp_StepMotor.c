@@ -1,0 +1,58 @@
+#include "bsp_StepMotor.h"   
+
+void Step_Motor_GPIO_Init(void)
+{
+		GPIO_InitTypeDef GPIO_InitStructure;
+
+		// GPIO ≥ı ºªØ
+		RCC_APB2PeriphClockCmd(STEP_MOTOR_GPIO_CLK, ENABLE);
+		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Pin = STEP_MOTOR_PIN_A|STEP_MOTOR_PIN_B|STEP_MOTOR_PIN_C|STEP_MOTOR_PIN_D;
+    GPIO_Init(STEP_MOTOR_PIN_PORT,&GPIO_InitStructure);   
+
+}
+
+void Set_Step_Motor(unsigned char InputData)
+{
+	switch(InputData)
+	{
+		case 0x08:
+			GPIO_SetBits(STEP_MOTOR_PIN_PORT,STEP_MOTOR_PIN_A );
+			GPIO_ResetBits(STEP_MOTOR_PIN_PORT,STEP_MOTOR_PIN_B|STEP_MOTOR_PIN_C|STEP_MOTOR_PIN_D );
+			break;
+		case 0x0c:
+			GPIO_SetBits(STEP_MOTOR_PIN_PORT,STEP_MOTOR_PIN_A|STEP_MOTOR_PIN_B );
+			GPIO_ResetBits(STEP_MOTOR_PIN_PORT,STEP_MOTOR_PIN_C|STEP_MOTOR_PIN_D );
+			break;
+		case 0x04:
+			GPIO_SetBits(STEP_MOTOR_PIN_PORT,STEP_MOTOR_PIN_B );
+			GPIO_ResetBits(STEP_MOTOR_PIN_PORT,STEP_MOTOR_PIN_A|STEP_MOTOR_PIN_C|STEP_MOTOR_PIN_D );
+			break;
+		case 0x06:
+			GPIO_SetBits(STEP_MOTOR_PIN_PORT,STEP_MOTOR_PIN_B|STEP_MOTOR_PIN_C );
+			GPIO_ResetBits(STEP_MOTOR_PIN_PORT,STEP_MOTOR_PIN_A|STEP_MOTOR_PIN_D );
+			break;
+		case 0x02:
+			GPIO_SetBits(STEP_MOTOR_PIN_PORT,STEP_MOTOR_PIN_C );
+			GPIO_ResetBits(STEP_MOTOR_PIN_PORT,STEP_MOTOR_PIN_B|STEP_MOTOR_PIN_A|STEP_MOTOR_PIN_D );
+			break;
+		case 0x03:
+			GPIO_SetBits(STEP_MOTOR_PIN_PORT,STEP_MOTOR_PIN_C|STEP_MOTOR_PIN_D );
+			GPIO_ResetBits(STEP_MOTOR_PIN_PORT,STEP_MOTOR_PIN_B|STEP_MOTOR_PIN_A );
+			break;
+		case 0x01:
+			GPIO_SetBits(STEP_MOTOR_PIN_PORT,STEP_MOTOR_PIN_D );
+			GPIO_ResetBits(STEP_MOTOR_PIN_PORT,STEP_MOTOR_PIN_A|STEP_MOTOR_PIN_B|STEP_MOTOR_PIN_C );
+			break;
+		case 0x09:
+			GPIO_SetBits(STEP_MOTOR_PIN_PORT,STEP_MOTOR_PIN_A|STEP_MOTOR_PIN_D );
+			GPIO_ResetBits(STEP_MOTOR_PIN_PORT,STEP_MOTOR_PIN_B|STEP_MOTOR_PIN_C );
+			break;
+		
+	}
+    
+}
+
+
+/*********************************************END OF FILE**********************/
